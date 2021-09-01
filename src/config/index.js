@@ -1,2 +1,2 @@
 export const serverHost = 'http://localhost';
-export const port = 80;
+export const port = 3001;

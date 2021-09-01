@@ -1,6 +1,6 @@
 import React from "react";
 //配置路由规则
-import  { Router,Route,NavLink,Switch,Redirect } from "dva/router";
+import  { Router,Route,Switch,Redirect } from "dva/router";
 import Home from '../components/Home.js'
 import Signin from '../components/Signin.js'
 import TeacherList from "../components/TeacherList.js";

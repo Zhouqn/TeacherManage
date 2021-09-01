@@ -12,7 +12,7 @@ class  TeacherAdd  extends Component {
             signEmail:"",
             signPhone:"",
             teacher:{
-                code:'',
+                // code:'',
                 gender:0,
                 joinDate:'',
                 subject:'',
@@ -23,11 +23,20 @@ class  TeacherAdd  extends Component {
                 email:'',
                 address:'',
                 decTeacher:'',
-                TeacherPhone:''
+                // TeacherPhone:''
             },
         }
-
     }
+
+    componentDidMount() {
+        this.getSubjects();
+    }
+
+    //获取课程信息
+    getSubjects() {
+        this.props.dispatch({type:'subject/getSubjects',payload:{}});
+    }
+
     //监听输入框值的改变
     changeHandler(propname,value){
         this.state.teacher[propname] = value;
@@ -35,7 +44,7 @@ class  TeacherAdd  extends Component {
     }
     //判断电话和邮箱正误
     isTrue(propname,value){
-        if(propname == "email"){
+        if(propname === "email"){
             if(!(regEmail.test(value))){
                 this.state.signEmail ='[ 电子邮箱为空或电子邮箱格式不正确! ]';
                 this.setState({});
@@ -44,7 +53,7 @@ class  TeacherAdd  extends Component {
                 this.setState({});
             }
         }
-        if(propname == "phone"){
+        if(propname === "phone"){
             if(!(regPhone.test(value))){
                 this.state.signPhone ='[ 手机号码为空或手机号码格式不正确! ]';
                 this.setState({});
@@ -56,8 +65,8 @@ class  TeacherAdd  extends Component {
     }
     //判断名字是否为空
     isNull(propname,value){
-        if(value == ""){
-            if(propname=="username"){
+        if(value === ""){
+            if(propname==="username"){
                 this.state.signName ='[ 姓名不能为空! ]';
                 this.setState({});
             }
@@ -71,7 +80,7 @@ class  TeacherAdd  extends Component {
         let justifyPhone = this.state.teacher.phone;
         let justifyEmail = this.state.teacher.email;
         let justifyName = this.state.teacher.username;
-        if(justifyName == ""){
+        if(justifyName === ""){
             alert("姓名不能为空");
             return;
         }
@@ -95,23 +104,17 @@ class  TeacherAdd  extends Component {
 
     render() {
         const {subjects} = this.props;
-        const { code,gender,joinDate,subject,username,nickname,birthDay,phone,email,address,decTeacher,id } = this.state.teacher;
+        // const { code,gender,joinDate,subject,username,nickname,birthDay,phone,email,address,decTeacher,id } = this.state.teacher;
+        const { gender,joinDate,subject,username,nickname,birthDay,phone,email,address,decTeacher } = this.state.teacher;
         const {signName,signEmail,signPhone} = this.state;
 
         return (
             <div className="body teacher">
                 <ol className="breadcrumb">
-                    <li className="active"><i className="fa fa-plus-square-o" ></i>添加讲师</li>
+                    <li className="active"><i className="fa fa-plus-square-o" />添加讲师</li>
                 </ol>
                 <div className="teacher-add">
                     <form action="" className="form-horizontal col-xs-offset-2">
-                        <div className="form-group">
-                            <label htmlFor="" className="col-xs-3 control-label">编号</label><span id='judgeRight'></span>
-                            <div className="col-xs-4">
-                                <input
-                                    type="text" className="form-control input-sm" value={code} onChange={e=>this.changeHandler('code',e.target.value)}/>
-                            </div>
-                        </div>
                         <div className="form-group">
                             <label htmlFor="" className="col-xs-3 control-label">姓名</label><span id='judgeRight'>{signName}</span>
                             <div className="col-xs-4">
@@ -189,11 +192,11 @@ class  TeacherAdd  extends Component {
                             <div className="col-xs-4">
                                 <label className="radio-inline">
                                     <input
-                                        type="radio" checked={gender==0} onChange={e=>this.changeHandler('gender',0) }/> 男
+                                        type="radio" checked={gender===0} onChange={e=>this.changeHandler('gender',0) }/> 男
                                 </label>
                                 <label className="radio-inline">
                                     <input
-                                        type="radio" checked={gender==1} onChange={e=>this.changeHandler('gender',1) }  /> 女
+                                        type="radio" checked={gender===1} onChange={e=>this.changeHandler('gender',1) }  /> 女
                                 </label>
                             </div>
                         </div>

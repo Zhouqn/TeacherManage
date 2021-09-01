@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'dva';
+import {formatDate} from "../utils";
 
 let regPhone = /^1[3456789]\d{9}$/;
 let regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
@@ -14,9 +15,8 @@ class  TeacherEdit  extends Component {
         }
     }
     static defaultProps =  {
-        //code,username,nickname,gender,joinDate,subject,birthDay,phone,email,address,decTeacher,id
+        //username,nickname,gender,joinDate,subject,birthDay,phone,email,address,decTeacher,id
         teacher:{
-            code:'',
             username:'',
             nickname:'',
             gender:0,
@@ -37,7 +37,7 @@ class  TeacherEdit  extends Component {
     }
     //判断电话和邮箱正误
     isTrue(propname,value){
-        if(propname == "email"){
+        if(propname === "email"){
             if(!(regEmail.test(value))){
                 this.state.signEmail ='[ 电子邮箱为空或电子邮箱格式不正确 ! ]';
                 this.setState({});
@@ -46,7 +46,7 @@ class  TeacherEdit  extends Component {
                 this.setState({});
             }
         }
-        if(propname == "phone"){
+        if(propname === "phone"){
             if(!(regPhone.test(value))){
                 this.state.signPhone ='[ 手机号码为空或手机号码格式不正确 ! ]';
                 this.setState({});
@@ -58,8 +58,8 @@ class  TeacherEdit  extends Component {
     }
     //判断名字是否为空
     isNull(propname,value){
-        if(value == ""){
-            if(propname=="username"){
+        if(value === ""){
+            if(propname==="username"){
                 this.state.signName ='[ 姓名不能为空 ! ]';
                 this.setState({});
             }
@@ -73,7 +73,7 @@ class  TeacherEdit  extends Component {
         let justifyName = this.props.teacher.username;
         let justifyPhone = this.props.teacher.phone;
         let justifyEmail = this.props.teacher.email;
-        if(justifyName == ""){
+        if(justifyName === ""){
             alert("姓名不能为空");
             return;
         }
@@ -95,19 +95,19 @@ class  TeacherEdit  extends Component {
     render() {
         const {signName,signPhone,signEmail} = this.state;
         const {subjects} = this.props;
-         const { code,gender,joinDate,subject,username,nickname,birthDay,phone,email,address,decTeacher,id } = this.props.teacher;
+        const { gender,joinDate,subject,username,nickname,birthDay,phone,email,address,decTeacher,id } = this.props.teacher;
         return (
             <div className="body teacher">
                 <ol className="breadcrumb">
-                    <li className="active"><i className = "fa fa-edit" ></i>编辑讲师信息</li>
+                    <li className="active"><i className = "fa fa-edit" />编辑讲师信息</li>
                 </ol>
                 <div className="teacher-add">
                     <form action="" className="form-horizontal col-xs-offset-2">
                         <div className="form-group">
-                            <label htmlFor="" className="col-xs-3 control-label">编号</label><span id="judgeRight"></span>
+                            <label htmlFor="" className="col-xs-3 control-label">编号</label><span id="judgeRight"/>
                             <div className="col-xs-4">
                                 <input
-                                    type="text" className="form-control input-sm" value={code || ''} onChange={e=>this.changeHandler('code',e.target.value)}/>
+                                    type="text" disabled={true} className="form-control input-sm" value={id || ''}/>
                             </div>
                         </div>
                         <div className="form-group">
@@ -128,14 +128,14 @@ class  TeacherEdit  extends Component {
                             <label htmlFor="" className="col-xs-3 control-label">出生日期</label>
                             <div className="col-xs-4">
                                 <input
-                                    type="date" className="form-control input-sm" value={birthDay || ''} onChange={e=>this.changeHandler('birthDay',e.target.value)}/>
+                                    type="date" className="form-control input-sm" value={formatDate(birthDay) || ''} onChange={e=>this.changeHandler('birthDay',e.target.value)}/>
                             </div>
                         </div>
                         <div className="form-group">
                             <label htmlFor="" className="col-xs-3 control-label">入职时间</label>
                             <div className="col-xs-4">
                                 <input
-                                    type="date" className="form-control input-sm" value={joinDate || ''} onChange={e=>this.changeHandler('joinDate',e.target.value)}/>
+                                    type="date" className="form-control input-sm" value={formatDate(joinDate) || ''} onChange={e=>this.changeHandler('joinDate',e.target.value)}/>
                             </div>
                         </div>
                         <div className="form-group">
@@ -185,11 +185,11 @@ class  TeacherEdit  extends Component {
                             <div className="col-xs-4">
                                 <label className="radio-inline">
                                     <input
-                                        type="radio" checked={gender==0} onChange={e=>this.changeHandler('gender',0) }/> 男
+                                        type="radio" checked={gender===0} onChange={e=>this.changeHandler('gender',0) }/> 男
                                 </label>
                                 <label className="radio-inline">
                                     <input
-                                        type="radio" checked={gender==1} onChange={e=>this.changeHandler('gender',1) }  /> 女
+                                        type="radio" checked={gender===1} onChange={e=>this.changeHandler('gender',1) }  /> 女
                                 </label>
                             </div>
                         </div>

@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import {serverHost,port} from "../config";
 import {homeSubRouters,MyRoute as Route} from '../routers'
 import TeacherLoading from "./common/TeacherLoading";
-import CheckLogin from '../components/common/checkLogin'
 
 class Home extends Component {
     constructor(props) {
@@ -22,19 +21,16 @@ class Home extends Component {
     }
     //判断是否登录
     judgeLogin(){
-        this.props.dispatch({type:"teacher/judgeLogin",payload:{}});
+        this.props.dispatch({type:"teacherManager/judgeLogin",payload:{}});
     }
     //点击登录按钮
-    goSignin(isLogin){
-        if(isLogin){
-            alert("您已登录,如果您要登录其他账号请先退出");
-        }else{
-            window.location.href = '/signin';
-        }
+    goSignin(){
+        window.location.href = '/signin';
     }
+
     //点击退出按钮
     signout(){
-        this.props.dispatch({type:"teacher/signout",payload:{}})
+        this.props.dispatch({type:"teacherManager/signout",payload:{}})
     }
     //进入个人信息
     myMessage(){
@@ -57,56 +53,56 @@ class Home extends Component {
         let { isLogin } = this.props;
         return (
             <React.Fragment>
-                <div>
+                {isLogin ?
+                    <div>
                     <div className="aside">
 
                         <div className="profile">
 
                             <div className="avatar img-circle">
-                                <img src={avatar}/>
+                                <img src={avatar} alt=""/>
                             </div>
-                            <h4></h4>
                         </div>
                         <div className="navs">
                             <ul className="list-unstyled">
                                 <li>
                                     <a>
-                                        <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                        <i className="fa fa-tasks"></i>
+                                        <span className="glyphicon glyphicon-search" aria-hidden="true"/>
+                                        <i className="fa fa-tasks"/>
                                         导航栏
                                     </a>
 
                                 </li>
                                 <li>
-                                    <a onClick={e=>this.myMessage()}>
-                                        <i className="fa fa-user" ></i>
+                                    <a onClick={e => this.myMessage()}>
+                                        <i className="fa fa-user"/>
                                         个人中心
                                     </a>
 
                                 </li>
                                 <li>
-                                    <a  onClick={e=>this.editMyMessage()}>
-                                        <i className="fa fa-edit"></i>
+                                    <a onClick={e => this.editMyMessage()}>
+                                        <i className="fa fa-edit"/>
                                         修改信息
                                     </a>
                                 </li>
                                 <li>
-                                    <a onClick={e=>this.teacherList()}>
-                                        <i className="fa fa-file-text-o" ></i>
+                                    <a onClick={e => this.teacherList()}>
+                                        <i className="fa fa-file-text-o"/>
                                         讲师管理
                                     </a>
                                 </li>
                                 <li>
-                                    <a onClick={e=>this.courseMessage()}>
-                                        <i className="fa fa-cog"></i>
+                                    <a onClick={e => this.courseMessage()}>
+                                        <i className="fa fa-cog"/>
                                         课程信息
                                     </a>
                                 </li>
                                 <li>
                                     <a>
-                                        <i className="fa fa-cog"></i>
+                                        <i className="fa fa-cog"/>
                                         系统设置
-                                        <i className="arrow fa fa-angle-right"></i>
+                                        <i className="arrow fa fa-angle-right"/>
                                     </a>
                                     <ul className="list-unstyled">
                                         <li>
@@ -131,31 +127,31 @@ class Home extends Component {
                                 <nav className="navbar navbar-custom">
                                     <div className="navbar-header">
                                         <a className="navbar-brand">
-                                            <i className="fa fa-navicon"></i>
+                                            <i className="fa fa-navicon"/>
                                         </a>
                                     </div>
                                     <ul className="nav navbar-nav navbar-right">
                                         <li>
-                                            <a >
-                                                <i className="fa fa-bell"></i>
+                                            <a>
+                                                <i className="fa fa-bell"/>
                                                 <span className="badge">8</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a onClick={e=>this.myMessage()}>
-                                                <i className="fa fa-user"></i>
+                                            <a onClick={e => this.myMessage()}>
+                                                <i className="fa fa-user"/>
                                                 个人中心
                                             </a>
                                         </li>
                                         <li>
-                                            <a  onClick={e=>this.goSignin(isLogin)}>
-                                                <i className="fa fa-sign-in" ></i>
+                                            <a onClick={e => this.goSignin()}>
+                                                <i className="fa fa-sign-in"/>
                                                 登录
                                             </a>
                                         </li>
                                         <li>
-                                            <a onClick={e=>this.signout()}>
-                                                <i className="fa fa-sign-out" ></i>
+                                            <a onClick={e => this.signout()}>
+                                                <i className="fa fa-sign-out"/>
                                                 退出
                                             </a>
                                         </li>
@@ -164,13 +160,18 @@ class Home extends Component {
                             </div>
                             <TeacherLoading/>
                             {
-                                homeSubRouters.map((route,i)=>{
-                                    return <Route key={i} path={route.path} component={CheckLogin(route.component)}/>
+                                homeSubRouters.map((route, i) => {
+                                    return <Route key={i} path={route.path} component={route.component}/>
                                 })
                             }
                         </div>
                     </div>
                 </div>
+                    :
+                <div className="alert alert-warning" role="alert">
+                    未登录，请先<a href="/signin" className="alert-link">登录</a>...
+                </div>
+                }
             </React.Fragment>
         )
     }
@@ -178,7 +179,7 @@ class Home extends Component {
 
 export default connect(state=>{
         return{
-            isLogin:state.teacher.isLogin,
+            isLogin:state.teacherManager.isLogin,
         };
     }
 

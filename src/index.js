@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import router from './routers';  //默认查找index.js
@@ -7,7 +5,8 @@ import modelIndex from './models';
 import teacherModel from './models/teacher';
 import teacherManagerModel from "./models/teacherManager";
 import subjectModel from "./models/subject"
-import createHistory from 'history/createBrowserHistory';
+// import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history'
 import createLoading from 'dva-loading';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.css';
@@ -19,7 +18,7 @@ import dva from 'dva';
 
 //创建dva的实例app对象
 let app = new dva({
-    history:createHistory(),
+    history:createBrowserHistory(),
 });
 
 //配置路由

@@ -29,7 +29,12 @@ class Subject extends Component {
     //搜索课程
     search(e){
         e.preventDefault();
-        this.props.dispatch({type:'subject/searchSubject',payload:{ query:this.state.query } })
+        if(this.state.query === '') {
+            this.getSubjects();
+        }else {
+            this.props.dispatch({type:'subject/searchSubject',payload:{ query:this.state.query } })
+        }
+
     }
     //输入框值的改变
     changeValue(e){
@@ -45,7 +50,7 @@ class Subject extends Component {
             <React.Fragment>
                 <div className="body teacher-list">
                     <ol className="breadcrumb">
-                    <li className="active"><i className="fa fa-newspaper-o" ></i>课程信息</li>
+                    <li className="active"><i className="fa fa-newspaper-o" />课程信息</li>
                     </ol>
                     <form  className="form-inline searchSubjects"  onSubmit={e=>this.search(e)} >
                             <input type="text" className="form-control input-sm" value={query} onChange={e=>this.changeValue(e)}/>
@@ -65,37 +70,37 @@ class Subject extends Component {
                                         <div className="form-group" key={i}>
                                             <p id="signSubject">{i+1}</p>
                                             <div className='subject'>
-                                                <label className="col-sm-2 control-label">课程编号<i className = "fa fa-info-circle"></i></label>
+                                                <label className="col-sm-2 control-label">课程编号<i className = "fa fa-info-circle"/></label>
                                                 <div className="col-sm-10">
                                                 <p className="form-control-static">{subject.code}</p>
                                                 </div>
                                             </div >
                                             <div className ='subject'>
-                                                <label className="col-sm-2 control-label">课程名称<i className = "fa fa-book"></i></label>
+                                                <label className="col-sm-2 control-label">课程名称<i className = "fa fa-book"/></label>
                                                 <div className="col-sm-10">
                                                 <p className="form-control-static">{subject.course}</p>
                                                 </div>
                                             </div>
                                             <div className ='subject'>
-                                                <label className="col-sm-2 control-label">所修学年<i className = "fa fa-calendar"></i></label>
+                                                <label className="col-sm-2 control-label">所修学年<i className = "fa fa-calendar"/></label>
                                                 <div className="col-sm-10">
                                                     <p className="form-control-static">{subject.whichYear}</p>
                                                 </div>
                                             </div>
                                                 <div className ='subject'>
-                                                <label className="col-sm-2 control-label">所属院系<i className = "fa fa-home"></i></label>
+                                                <label className="col-sm-2 control-label">所属院系<i className = "fa fa-home"/></label>
                                                 <div className="col-sm-10">
                                                     <p className="form-control-static">{subject.faculty}</p>
                                                 </div>
                                             </div>
                                                 <div className ='subject'>
-                                                <label className="col-sm-2 control-label">学分<i className = "fa fa-bar-chart"></i></label>
+                                                <label className="col-sm-2 control-label">学分<i className = "fa fa-bar-chart"/></label>
                                                 <div className="col-sm-10">
                                                     <p className="form-control-static">{subject.score}</p>
                                                 </div>
                                             </div>
                                                 <div className ='subject'>
-                                                <label className="col-sm-2 control-label">课程描述<i className = "fa fa-commenting-o"></i></label>
+                                                <label className="col-sm-2 control-label">课程描述<i className = "fa fa-commenting-o"/></label>
                                                 <div className="col-sm-10">
                                                 <p className="form-control-static">{subject.decCourse}</p>
                                                 </div>

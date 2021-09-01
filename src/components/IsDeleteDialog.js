@@ -12,6 +12,8 @@ class IsDeleteDialog extends Component{
     static defaultProps = {
         isDelete:false,
         teacher:{},
+        page:1,
+        count:5
     };
     //取消删除
     notDelete(e){
@@ -24,7 +26,7 @@ class IsDeleteDialog extends Component{
     sureDelete(e){
         let { id } = this.props.teacher;
         this.props.dispatch({type:'teacher/deleteTeacher',payload:{
-                _id : id,
+                t_id : id,
             }});
         this.setState((state,props) => ({
             notShow:true,
@@ -41,7 +43,7 @@ class IsDeleteDialog extends Component{
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h4 className="modal-title"></h4>
+                            <h4 className="modal-title"/>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={e=>this.notDelete(e)}><span
                                 aria-hidden="true">&times;</span></button>
 

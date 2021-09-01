@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import avatar from '../assets/imgs/deer.jpg'//告诉webpack管理这个图片
 import {connect} from "dva"
+import md5 from 'md5'
 
 class Signin extends Component {
     constructor(props) {
@@ -15,8 +16,8 @@ class Signin extends Component {
         e.preventDefault();//禁止默认事件
         let {username,password} = this.state;
         //调用dispatch传递参数
-        this.props.dispatch({type:'teacher/doLogin',payload:{
-            username,password
+        this.props.dispatch({type:'teacherManager/doLogin',payload:{
+            username,password:md5(password)
         } });
     }
     render() {
@@ -31,13 +32,13 @@ class Signin extends Component {
                         <form className="col-xs-offset-1 col-xs-10 willLogin" onSubmit={e=>this.doSignin(e)}>
                             <div className="">
                                 <span className="input-group-addon">
-                                    <i className="fa fa-user"></i>
+                                    <i className="fa fa-user"/>
                                 </span>
                                 <input id="name" type="text" className="form-control" placeholder="用户名" value={username}  onChange={e=>this.setState({username:e.target.value})}/>
                             </div>
                             <div className="">
                                 <span className="input-group-addon">
-                                    <i className="fa fa-key"></i>
+                                    <i className="fa fa-key"/>
                                 </span>
                                 <input id="pass" type="password" className="form-control" placeholder="密码" value={password}  onChange={e=>this.setState({password:e.target.value})}/>
                             </div>

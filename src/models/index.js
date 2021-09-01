@@ -1,4 +1,3 @@
-import request from '../utils/request'
 
 let index = {
     namespace:'index',

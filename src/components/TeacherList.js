@@ -23,13 +23,15 @@ class TeacherList extends Component {
         this.getSubjects();
     }
     loadByPage(num) {
-        let {q,page,count} = this.state;
-        this.props.dispatch({type:'teacher/updateTeacher',payload:{
+        let {q,count} = this.state;
+        this.props.dispatch({type:'teacher/getTeacherList',payload:{
             query:q,
             count,
             page:num
         }});
-        this.state.page = num;
+        this.setState({
+            page:num
+        })
     }
     //获取课程信息
     getSubjects() {
@@ -38,7 +40,11 @@ class TeacherList extends Component {
     //搜索教师
     search(e){
         e.preventDefault();
-        this.props.dispatch({type:'teacher/search',payload:{ q:this.state.q } })
+        this.props.dispatch({type:'teacher/getTeacherList',payload:{
+                query:this.state.q,
+                count:this.state.count,
+                page:1
+            }});
     }
     //教师信息查询
     showDialog(teacher){
@@ -50,7 +56,7 @@ class TeacherList extends Component {
     //教师信息修改
     showEdit(t){
         this.props.dispatch({type:'teacher/showTeacher',payload:{
-                _id : t.id,
+                t_id : t.id,
             }});
     }
     //搜索框数据变化
@@ -62,7 +68,7 @@ class TeacherList extends Component {
             q:query,
         });
         if(query === ''){
-            this.props.dispatch({type:'teacher/change',payload:{ q:query } });
+            this.props.dispatch({type:'teacher/getTeacherList',payload:{query:'', count:5, page:1}});
         }
 
     }
@@ -87,9 +93,8 @@ class TeacherList extends Component {
     }
 
     render() {
-        let {teachers,total} = this.props;
-        const {page,q,isShow,teacher,isDelete} = this.state;
-        total = Math.ceil(total / this.state.count);
+        let {teachers, totalPage} = this.props;
+        const {page, q,isShow,teacher,isDelete} = this.state;
         this.state.isShow = false;
         this.state.isDelete = false;
 
@@ -101,7 +106,7 @@ class TeacherList extends Component {
                     <IsDeleteDialog isDelete={isDelete} teacher={teacher}/>
 
                     <ol className="breadcrumb">
-                        <li className="active"><i className="fa fa-newspaper-o" ></i>讲师列表</li>
+                        <li className="active"><i className="fa fa-newspaper-o" />讲师列表</li>
                     </ol>
                     <div className="page-title">
                         <a className="btn btn-success btn-sm pull-right" onClick={e=>this.addShow()}>添加讲师</a>
@@ -134,11 +139,11 @@ class TeacherList extends Component {
                                 teachers && teachers.map((t,i)=>{
                                     return (
                                         <tr key={i}>
-                                            <td>{t.code}</td>
+                                            <td>{t.id}</td>
                                             <td>{t.username}</td>
                                             <td>{t.nickname}</td>
                                             <td>{makeAge("birthDay",t.birthDay)}</td>
-                                            <td>{t.gender == 1?'女':'男'}</td>
+                                            <td>{t.gender === 1?'女':'男'}</td>
                                             <td>{t.phone}</td>
                                             <td>
                                                 <a className="btn btn-info btn-xs" onClick={e=>this.showDialog(t)}>查 看</a>
@@ -152,7 +157,7 @@ class TeacherList extends Component {
                             </tbody>
                         </table>
                         <button disabled={page===1} className="btn btn-primary" onClick={e=>this.loadByPage(page-1)}>上一页</button>
-                        <button disabled={page===total} className="btn btn-primary" onClick={e=>this.loadByPage(page+1)}>下一页</button>
+                        <button disabled={page===totalPage} className="btn btn-primary" onClick={e=>this.loadByPage(page+1)}>下一页</button>
                     </div>
                 </div>
             </React.Fragment>
@@ -164,5 +169,6 @@ export default connect(state=>{
     return {
         teachers:state.teacher.teachers,
         total:state.teacher.total,
+        totalPage: state.teacher.totalPage,
     }
 })(TeacherList)

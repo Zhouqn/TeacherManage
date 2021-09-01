@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {makeAge} from '../utils'
+import {makeAge, formatDate} from '../utils'
 
 class Dialog extends Component{
     constructor(props) {
@@ -28,7 +28,7 @@ class Dialog extends Component{
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h4 className="modal-title"><i className="fa fa-drivers-license-o"></i>讲师信息</h4>
+                                <h4 className="modal-title"><i className="fa fa-drivers-license-o"/>讲师信息</h4>
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={e=>this.closeDialog(e)}><span
                                     aria-hidden="true">&times;</span></button>
 
@@ -46,17 +46,17 @@ class Dialog extends Component{
                                                         <th>花名:</th>
                                                         <td colSpan="3">{teacher.nickname}</td>
                                                         <th>性别:</th>
-                                                        <td colSpan="3">{teacher.gender==0?'男':'女'}</td>
+                                                        <td colSpan="3">{teacher.gender === 0?'男':'女'}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>出生日期:</th>
-                                                        <td colSpan="3">{teacher.birthDay}</td>
+                                                        <td colSpan="3">{formatDate(teacher.birthDay)}</td>
                                                         <th>年龄:</th>
                                                         <td colSpan="3">{makeAge("birthDay",teacher.birthDay)}</td>
                                                     </tr>
                                                     <tr>
                                                         <th>入职日期:</th>
-                                                        <td colSpan="3">{teacher.joinDate}</td>
+                                                        <td colSpan="3">{formatDate(teacher.joinDate)}</td>
                                                         <th>工龄:</th>
                                                         <td colSpan="3">{makeAge("joinDate",teacher.joinDate)}</td>
                                                     </tr>
@@ -82,7 +82,7 @@ class Dialog extends Component{
                                                 </table>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-default" data-dismiss="modal"  onClick={e=>this.closeDialog(e)}>Close</button>
+                                <button type="button" className="btn btn-default" data-dismiss="modal"  onClick={e=>this.closeDialog(e)}>关闭</button>
                             </div>
                         </div>
                     </div>

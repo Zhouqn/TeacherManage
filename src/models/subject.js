@@ -1,4 +1,4 @@
-import request from "../utils/request";
+import { toGetSubjectList, toSearchSubject } from  '../services/subject'
 
 let subject = {
     namespace:'subject',
@@ -8,14 +8,24 @@ let subject = {
     effects:{
         //搜索课程
         *searchSubject({payload},{put,call}){
-            let res = yield call(request('/subjects.php',{params : {query:payload.query}}));
-            yield put({type:'showSubject',payload:{subjects:res.data.subjects}})
+            let res = yield call(toSearchSubject, payload);
+            if(res.data.success){
+                yield put({type:'showSubject',payload:{subjects:res.data.data.subjects}})
+            }else {
+                alert("课程信息不存在!")
+            }
         },
+
         //获取课程信息
         *getSubjects({payload},{put,call}){
-            let res = yield call(request('/subjects.php'));
-            yield put({type:'showSubject',payload:{subjects:res.data.subjects}});
+            let res = yield call(toGetSubjectList);
+            if (res.data.success) {
+                yield put({type:'showSubject',payload:{subjects:res.data.data.subjects}});
+            }else {
+                alert("无课程信息!")
+            }
         },
+
     },
     reducers:{
         showSubject(state,{payload}){
